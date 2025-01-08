@@ -79,29 +79,21 @@ public class ExecutorDML {
 
     public static List<Ticket> getTicketsById(long id) {
         List<Ticket> tickets = new ArrayList<>();
-        String sql = "SELECT * FROM ticket WHERE id = ?"; // SQL-запрос с параметром
-
-        try (var connection = ConnectionManager.getConnection();
-             var statement = connection.prepareStatement(sql)) { // Подготовка запроса
-
-            statement.setLong(1, id); // Устанавливаем значение параметра id
-
-            try (var resultSet = statement.executeQuery()) { // Выполняем запрос и получаем ResultSet
-                while (resultSet.next()) {
-                    Ticket ticket = new Ticket();
-                    ticket.setId(resultSet.getLong("id"));
-                    ticket.setPassengerNo(resultSet.getString("passenger_no"));
-                    ticket.setPassengerName(resultSet.getString("passenger_name"));
-                    ticket.setFlightId(resultSet.getLong("flight_id"));
-                    ticket.setSeatNo(resultSet.getString("seat_no"));
-                    ticket.setCost(resultSet.getDouble("cost"));
-                    tickets.add(ticket);
-                }
+        String sql = "SELECT * FROM ticket WHERE id = ?";
+        try (ResultSet resultSet = executeQuery(sql, id)) {
+            while (resultSet.next()) {
+                Ticket ticket = new Ticket();
+                ticket.setId(resultSet.getLong("id"));
+                ticket.setPassengerNo(resultSet.getString("passenger_no"));
+                ticket.setPassengerName(resultSet.getString("passenger_name"));
+                ticket.setFlightId(resultSet.getLong("flight_id"));
+                ticket.setSeatNo(resultSet.getString("seat_no"));
+                ticket.setCost(resultSet.getDouble("cost"));
+                tickets.add(ticket);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Не удалось выполнить SQL-запрос", e);
         }
-
         return tickets;
     }
 }
