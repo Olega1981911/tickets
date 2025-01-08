@@ -5,10 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
 public class Seat {
-    private int aircraftId;
+    private Integer aircraftId;
     private String seatNo;
 }

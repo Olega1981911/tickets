@@ -5,10 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
 public class Aircraft {
-    private int id;
+    private Integer id;
     private String model;
 }
